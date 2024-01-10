@@ -24,6 +24,7 @@ from ceasiompy.utils.moduleinterfaces import (
     check_cpacs_input_requirements,
     get_toolinput_file_path,
     get_tooloutput_file_path,
+    get_results_directory,
 )
 from ceasiompy.utils.commonxpath import (
     REF_XPATH,
@@ -35,6 +36,7 @@ from cpacspy.cpacsfunctions import (
 from cpacspy.cpacsfunctions import create_branch, get_value, get_value_or_default
 from cpacspy.cpacspy import CPACS
 from markdownpy.markdownpy import MarkdownDoc
+
 
 log = get_logger()
 
@@ -76,6 +78,10 @@ load_fact_xpath = CLCALC_XPATH + "/loadFactor"
 def main(cpacs_path, cpacs_out_path):
 
     log.info("----- Start of " + MODULE_NAME + " -----")
+
+    results_dir = get_results_directory("SU2Run")
+    md = MarkdownDoc(Path(results_dir, "su2actuatordisk.md"))
+
     cpacs = CPACS(cpacs_path)
     tixi = cpacs.tixi
 
