@@ -10,6 +10,14 @@ import re
 
 from scipy.constants import convert_temperature
 
+from ceasiompy.utils.ceasiomlogger import get_logger
+
+log = get_logger()
+
+# =================================================================================================
+#   FUNCTIONS
+# =================================================================================================
+
 
 def run_turbojet_analysis(alt, MN, Fn):
     class Turbojet(pyc.Cycle):
@@ -216,5 +224,7 @@ def write_hbtf_file(
     file.write(f"massflow_out = {massflow_stat_out} [kg/s]\n")
     file.write(f"T_stat_out = {T_stat_out} [K]\n")
     file.write(f"P_stat_out = {P_stat_out} [Pa]\n")
+
+    log.info("turbojet.dat file generated!")
 
     return file

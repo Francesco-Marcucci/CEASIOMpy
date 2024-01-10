@@ -10,6 +10,14 @@ import re
 
 from scipy.constants import convert_temperature
 
+from ceasiompy.utils.ceasiomlogger import get_logger
+
+log = get_logger()
+
+# =================================================================================================
+#   FUNCTIONS
+# =================================================================================================
+
 
 def run_turbofan_analysis_test_2(alt, MN, Fn):
     class HBTF(pyc.Cycle):
@@ -416,7 +424,6 @@ def write_hbtf_file(
     T_stat_out_core,
 ):
 
-    file.write(f"T_tot_out_core= {T_tot_out_core}\n")
     file.write(f"T_tot_out_core = {T_tot_out_core} [K]\n")
     file.write(f"V_stat_out_core = {V_stat_out_core} [m/s]\n")
     file.write(f"MN_out_core = {MN_out_core} [adim]\n")
@@ -429,5 +436,7 @@ def write_hbtf_file(
     file.write(f"P_tot_out_byp = {P_tot_out_byp} [Pa]\n")
     file.write(f"massflow_stat_out_byp = {massflow_stat_out_byp} [kg/s]\n")
     file.write(f"T_stat_out_core = {T_stat_out_core} [K]\n")
+
+    log.info("hbtf.dat file generated!")
 
     return file
