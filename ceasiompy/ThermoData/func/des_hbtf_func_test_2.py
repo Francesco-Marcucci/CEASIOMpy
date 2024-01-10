@@ -398,3 +398,36 @@ def run_turbofan_analysis_test_2(alt, MN, Fn):
     print(f"massflow_stat_out_byp = {massflow_stat_out_byp} [kg/s]")
     print(f"T_stat_out_core = {T_stat_out_core} [K]")
     return res
+
+
+def write_hbtf_file(
+    file,
+    T_tot_out_byp,
+    V_stat_out_byp,
+    MN_out_byp,
+    P_tot_out_byp,
+    massflow_stat_out_byp,
+    T_stat_out_byp,
+    T_tot_out_core,
+    V_stat_out_core,
+    MN_out_core,
+    P_tot_out_core,
+    massflow_stat_out_core,
+    T_stat_out_core,
+):
+
+    file.write(f"T_tot_out_core= {T_tot_out_core}\n")
+    file.write(f"T_tot_out_core = {T_tot_out_core} [K]\n")
+    file.write(f"V_stat_out_core = {V_stat_out_core} [m/s]\n")
+    file.write(f"MN_out_core = {MN_out_core} [adim]\n")
+    file.write(f"P_tot_out_core = {P_tot_out_core} [Pa]\n")
+    file.write(f"massflow_out_core = {massflow_stat_out_core} [kg/s]\n")
+    file.write(f"T_stat_out_core = {T_stat_out_core} [K]\n")
+    file.write(f"T_tot_out_byp = {T_tot_out_byp} [K]\n")
+    file.write(f"V_stat_out_byp = {V_stat_out_byp} [m/s]\n")
+    file.write(f"MN_out_byp = {MN_out_byp} [adim]\n")
+    file.write(f"P_tot_out_byp = {P_tot_out_byp} [Pa]\n")
+    file.write(f"massflow_stat_out_byp = {massflow_stat_out_byp} [kg/s]\n")
+    file.write(f"T_stat_out_core = {T_stat_out_core} [K]\n")
+
+    return file
