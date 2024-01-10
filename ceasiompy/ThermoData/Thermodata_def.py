@@ -20,11 +20,11 @@ from ceasiompy.ThermoData.func.des_hbtf_func_test_2 import run_turbofan_analysis
 from ceasiompy.ThermoData.func.des_turbojet_func import run_turbojet_analysis
 
 from ceasiompy.utils.ceasiomlogger import get_logger
+
 from ceasiompy.utils.moduleinterfaces import (
     check_cpacs_input_requirements,
     get_toolinput_file_path,
     get_tooloutput_file_path,
-    get_results_directory,
 )
 from ceasiompy.utils.commonxpath import (
     REF_XPATH,
@@ -36,6 +36,7 @@ from cpacspy.cpacsfunctions import (
 from cpacspy.cpacsfunctions import create_branch, get_value, get_value_or_default
 from cpacspy.cpacspy import CPACS
 from markdownpy.markdownpy import MarkdownDoc
+from ceasiompy.utils.ceasiompyutils import get_results_directory
 
 
 log = get_logger()
@@ -79,8 +80,8 @@ def main(cpacs_path, cpacs_out_path):
 
     log.info("----- Start of " + MODULE_NAME + " -----")
 
-    results_dir = get_results_directory("SU2Run")
-    md = MarkdownDoc(Path(results_dir, "su2actuatordisk.md"))
+    results_dir = get_results_directory("ThermoData")
+    md = MarkdownDoc(Path(results_dir, "ThermoData.md"))
 
     cpacs = CPACS(cpacs_path)
     tixi = cpacs.tixi
