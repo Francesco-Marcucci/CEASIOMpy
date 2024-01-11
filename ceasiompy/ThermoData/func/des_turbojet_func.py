@@ -185,25 +185,6 @@ def run_turbojet_analysis(alt, MN, Fn):
     )  # Pa
     P_stat_out = prob.get_val("DESIGN.nozz.mux.Fl_O:stat:P") * 6894.7573  # Pa
 
-    #    res = np.array(
-    #        [
-    #            T_tot_out,
-    #            V_stat_out,
-    #            MN_out,
-    #            P_tot_out,
-    #            massflow_stat_out,
-    #            T_stat_out,
-    #            P_stat_out,
-    #        ]
-    #    )
-
-    # print(f"T_tot_out = {T_tot_out} [K]")
-    # print(f"V_stat_out = {V_stat_out} [m/s]")
-    # print(f"MN_out = {MN_out} [adim]")
-    # print(f"P_tot_out = {P_tot_out} [Pa]")
-    # print(f"massflow_out = {massflow_stat_out} [kg/s]")
-    # print(f"T_stat_out = {T_stat_out} [K]")
-    # print(f"P_stat_out = {P_stat_out} [Pa]")
     return (
         T_tot_out,
         V_stat_out,

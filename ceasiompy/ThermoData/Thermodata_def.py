@@ -94,7 +94,8 @@ def main(cpacs_path, cpacs_out_path):
     MN = get_value_or_default(tixi, cruise_mach_xpath, 0.3)
 
     Fn = 2000
-
+    a=1
+    if a==1:
     (
         T_tot_out,
         V_stat_out,
@@ -104,7 +105,7 @@ def main(cpacs_path, cpacs_out_path):
         T_stat_out,
         P_stat_out,
     ) = run_turbojet_analysis(alt, MN, Fn)
-
+    else:
     (
         T_tot_out_byp,
         V_stat_out_byp,
