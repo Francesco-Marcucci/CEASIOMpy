@@ -5,6 +5,7 @@ from ceasiompy.utils.commonxpath import (
     CLCALC_XPATH,
     SU2_FIXED_CL_XPATH,
     SU2_TARGET_CL_XPATH,
+    ENGINE_TYPE_XPATH,
 )
 
 # ===== Module Status =====
@@ -53,10 +54,22 @@ cpacs_inout.add_input(
     default_value=2000,
     unit="1",  # AGGIUNGERE UNITA DI MISURA
     descr="Engine net force",
-    xpath=CLCALC_XPATH + "/loadFactor",
+    xpath=CLCALC_XPATH + "/NetForce",
     gui=True,
-    gui_name="Load Factor",
+    gui_name="NetForce",
     gui_group="Cruise",
+)
+
+cpacs_inout.add_input(
+    var_name="is_double_floor",
+    var_type=list,
+    default_value=[0, 1],
+    unit=None,
+    descr="0: TBJ, 1: TBF ",
+    xpath=ENGINE_TYPE_XPATH,
+    gui=True,
+    gui_name="Double deck",
+    gui_group="User inputs",
 )
 
 

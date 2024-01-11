@@ -420,7 +420,7 @@ def write_hbtf_file(
     file.write(f"MN_out_byp = {MN_out_byp} [adim]\n")
     file.write(f"P_tot_out_byp = {P_tot_out_byp} [Pa]\n")
     file.write(f"massflow_stat_out_byp = {massflow_stat_out_byp} [kg/s]\n")
-    file.write(f"T_stat_out_core = {T_stat_out_core} [K]\n")
+    file.write(f"T_stat_out_byp = {T_stat_out_byp} [K]\n")
 
     log.info("hbtf.dat file generated!")
 

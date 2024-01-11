@@ -35,6 +35,7 @@ from ceasiompy.utils.moduleinterfaces import (
 from ceasiompy.utils.commonxpath import (
     REF_XPATH,
     CLCALC_XPATH,
+    ENGINE_TYPE_XPATH,
 )
 from cpacspy.cpacsfunctions import (
     get_value_or_default,
@@ -95,30 +96,35 @@ def main(cpacs_path, cpacs_out_path):
 
     Fn = 2000
 
-    (
-        T_tot_out,
-        V_stat_out,
-        MN_out,
-        P_tot_out,
-        massflow_stat_out,
-        T_stat_out,
-        P_stat_out,
-    ) = run_turbojet_analysis(alt, MN, Fn)
+    engine_type = get_value_or_default(tixi, ENGINE_TYPE_XPATH, 0)
 
-    (
-        T_tot_out_byp,
-        V_stat_out_byp,
-        MN_out_byp,
-        P_tot_out_byp,
-        massflow_stat_out_byp,
-        T_stat_out_byp,
-        T_tot_out_core,
-        V_stat_out_core,
-        MN_out_core,
-        P_tot_out_core,
-        massflow_stat_out_core,
-        T_stat_out_core,
-    ) = run_turbofan_analysis_test_2(alt, MN, Fn)
+    if engine_type == 0:
+        (
+            T_tot_out,
+            V_stat_out,
+            MN_out,
+            P_tot_out,
+            massflow_stat_out,
+            T_stat_out,
+            P_stat_out,
+        ) = run_turbojet_analysis(alt, MN, Fn)
+
+    else:
+
+        (
+            T_tot_out_byp,
+            V_stat_out_byp,
+            MN_out_byp,
+            P_tot_out_byp,
+            massflow_stat_out_byp,
+            T_stat_out_byp,
+            T_tot_out_core,
+            V_stat_out_core,
+            MN_out_core,
+            P_tot_out_core,
+            massflow_stat_out_core,
+            T_stat_out_core,
+        ) = run_turbofan_analysis_test_2(alt, MN, Fn)
 
     f = write_hbtf_file(
         file=f,
