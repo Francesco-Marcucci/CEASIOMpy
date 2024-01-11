@@ -394,18 +394,18 @@ def run_turbofan_analysis_test_2(alt, MN, Fn):
     #        ]
     #    )
 
-    print(f"T_tot_out_core = {T_tot_out_core} [K]")
-    print(f"V_stat_out_core = {V_stat_out_core} [m/s]")
-    print(f"MN_out_core = {MN_out_core} [adim]")
-    print(f"P_tot_out_core = {P_tot_out_core} [Pa]")
-    print(f"massflow_out_core = {massflow_stat_out_core} [kg/s]")
-    print(f"T_stat_out_core = {T_stat_out_core} [K]")
-    print(f"T_tot_out_byp = {T_tot_out_byp} [K]")
-    print(f"V_stat_out_byp = {V_stat_out_byp} [m/s]")
-    print(f"MN_out_byp = {MN_out_byp} [adim]")
-    print(f"P_tot_out_byp = {P_tot_out_byp} [Pa]")
-    print(f"massflow_stat_out_byp = {massflow_stat_out_byp} [kg/s]")
-    print(f"T_stat_out_core = {T_stat_out_core} [K]")
+    # print(f"T_tot_out_core = {T_tot_out_core} [K]")
+    # print(f"V_stat_out_core = {V_stat_out_core} [m/s]")
+    # print(f"MN_out_core = {MN_out_core} [adim]")
+    # print(f"P_tot_out_core = {P_tot_out_core} [Pa]")
+    # print(f"massflow_out_core = {massflow_stat_out_core} [kg/s]")
+    # print(f"T_stat_out_core = {T_stat_out_core} [K]")
+    # print(f"T_tot_out_byp = {T_tot_out_byp} [K]")
+    # print(f"V_stat_out_byp = {V_stat_out_byp} [m/s]")
+    # print(f"MN_out_byp = {MN_out_byp} [adim]")
+    # print(f"P_tot_out_byp = {P_tot_out_byp} [Pa]")
+    # print(f"massflow_stat_out_byp = {massflow_stat_out_byp} [kg/s]")
+    # print(f"T_stat_out_core = {T_stat_out_core} [K]")
 
     return (
         T_tot_out_byp,

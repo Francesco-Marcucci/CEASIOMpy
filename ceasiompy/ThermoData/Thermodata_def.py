@@ -95,36 +95,57 @@ def main(cpacs_path, cpacs_out_path):
 
     Fn = 2000
 
-    run_turbojet_analysis(alt, MN, Fn)
+    (
+        T_tot_out,
+        V_stat_out,
+        MN_out,
+        P_tot_out,
+        massflow_stat_out,
+        T_stat_out,
+        P_stat_out,
+    ) = run_turbojet_analysis(alt, MN, Fn)
 
-    run_turbofan_analysis_test_2(alt, MN, Fn)
+    (
+        T_tot_out_byp,
+        V_stat_out_byp,
+        MN_out_byp,
+        P_tot_out_byp,
+        massflow_stat_out_byp,
+        T_stat_out_byp,
+        T_tot_out_core,
+        V_stat_out_core,
+        MN_out_core,
+        P_tot_out_core,
+        massflow_stat_out_core,
+        T_stat_out_core,
+    ) = run_turbofan_analysis_test_2(alt, MN, Fn)
 
-    # f = write_hbtf_file(
-    #    file=f,
-    #    T_tot_out_byp=T_tot_out_byp,
-    #    V_stat_out_byp=V_stat_out_byp,
-    #    MN_out_byp=MN_out_byp,
-    #    P_tot_out_byp=P_tot_out_byp,
-    #    massflow_stat_out_byp=massflow_stat_out_byp,
-    #    T_stat_out_byp=T_stat_out_byp,
-    #    T_tot_out_core=T_tot_out_core,
-    #    V_stat_out_core=V_stat_out_core,
-    #    MN_out_core=MN_out_core,
-    #    P_tot_out_core=P_tot_out_core,
-    #    massflow_stat_out_core=massflow_stat_out_core,
-    #    T_stat_out_core=T_stat_out_core,
-    # )
+    f = write_hbtf_file(
+        file=f,
+        T_tot_out_byp=T_tot_out_byp,
+        V_stat_out_byp=V_stat_out_byp,
+        MN_out_byp=MN_out_byp,
+        P_tot_out_byp=P_tot_out_byp,
+        massflow_stat_out_byp=massflow_stat_out_byp,
+        T_stat_out_byp=T_stat_out_byp,
+        T_tot_out_core=T_tot_out_core,
+        V_stat_out_core=V_stat_out_core,
+        MN_out_core=MN_out_core,
+        P_tot_out_core=P_tot_out_core,
+        massflow_stat_out_core=massflow_stat_out_core,
+        T_stat_out_core=T_stat_out_core,
+    )
 
-    # g = write_turbojet_file(
-    #    file=g,
-    #    T_tot_out=T_tot_out,
-    #    V_stat_out=V_stat_out,
-    #    MN_out=MN_out,
-    #    P_tot_out=P_tot_out,
-    #    massflow_stat_out=massflow_stat_out,
-    #    T_stat_out=T_stat_out,
-    #    P_stat_out=P_stat_out,
-    # )
+    g = write_turbojet_file(
+        file=g,
+        T_tot_out=T_tot_out,
+        V_stat_out=V_stat_out,
+        MN_out=MN_out,
+        P_tot_out=P_tot_out,
+        massflow_stat_out=massflow_stat_out,
+        T_stat_out=T_stat_out,
+        P_stat_out=P_stat_out,
+    )
 
     log.info("----- End of " + MODULE_NAME + " -----")
 
