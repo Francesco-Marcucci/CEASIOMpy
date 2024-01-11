@@ -37,6 +37,9 @@ from ceasiompy.utils.commonxpath import (
     CLCALC_XPATH,
     ENGINE_TYPE_XPATH,
 )
+from ceasiompy.utils.commonnames import (
+    ENGINE_BOUNDARY_CONDITIONS,
+)
 from cpacspy.cpacsfunctions import (
     get_value_or_default,
 )
@@ -83,7 +86,7 @@ cruise_mach_xpath = CLCALC_XPATH + "/cruiseMach"
 load_fact_xpath = CLCALC_XPATH + "/loadFactor"
 
 
-def main(cpacs_path, cpacs_out_path):
+def main(cpacs_path, cpacs_out_path, EngineBC):
 
     log.info("----- Start of " + MODULE_NAME + " -----")
 
@@ -95,6 +98,8 @@ def main(cpacs_path, cpacs_out_path):
     MN = get_value_or_default(tixi, cruise_mach_xpath, 0.3)
 
     Fn = 2000
+
+    f = open(EngineBC, "w")
 
     engine_type = get_value_or_default(tixi, ENGINE_TYPE_XPATH, 0)
 
@@ -108,6 +113,17 @@ def main(cpacs_path, cpacs_out_path):
             T_stat_out,
             P_stat_out,
         ) = run_turbojet_analysis(alt, MN, Fn)
+
+        f = write_turbojet_file(
+            file=f,
+            T_tot_out=T_tot_out,
+            V_stat_out=V_stat_out,
+            MN_out=MN_out,
+            P_tot_out=P_tot_out,
+            massflow_stat_out=massflow_stat_out,
+            T_stat_out=T_stat_out,
+            P_stat_out=P_stat_out,
+        )
 
     else:
 
@@ -126,32 +142,21 @@ def main(cpacs_path, cpacs_out_path):
             T_stat_out_core,
         ) = run_turbofan_analysis_test_2(alt, MN, Fn)
 
-    f = write_hbtf_file(
-        file=f,
-        T_tot_out_byp=T_tot_out_byp,
-        V_stat_out_byp=V_stat_out_byp,
-        MN_out_byp=MN_out_byp,
-        P_tot_out_byp=P_tot_out_byp,
-        massflow_stat_out_byp=massflow_stat_out_byp,
-        T_stat_out_byp=T_stat_out_byp,
-        T_tot_out_core=T_tot_out_core,
-        V_stat_out_core=V_stat_out_core,
-        MN_out_core=MN_out_core,
-        P_tot_out_core=P_tot_out_core,
-        massflow_stat_out_core=massflow_stat_out_core,
-        T_stat_out_core=T_stat_out_core,
-    )
-
-    g = write_turbojet_file(
-        file=g,
-        T_tot_out=T_tot_out,
-        V_stat_out=V_stat_out,
-        MN_out=MN_out,
-        P_tot_out=P_tot_out,
-        massflow_stat_out=massflow_stat_out,
-        T_stat_out=T_stat_out,
-        P_stat_out=P_stat_out,
-    )
+        f = write_hbtf_file(
+            file=f,
+            T_tot_out_byp=T_tot_out_byp,
+            V_stat_out_byp=V_stat_out_byp,
+            MN_out_byp=MN_out_byp,
+            P_tot_out_byp=P_tot_out_byp,
+            massflow_stat_out_byp=massflow_stat_out_byp,
+            T_stat_out_byp=T_stat_out_byp,
+            T_tot_out_core=T_tot_out_core,
+            V_stat_out_core=V_stat_out_core,
+            MN_out_core=MN_out_core,
+            P_tot_out_core=P_tot_out_core,
+            massflow_stat_out_core=massflow_stat_out_core,
+            T_stat_out_core=T_stat_out_core,
+        )
 
     log.info("----- End of " + MODULE_NAME + " -----")
 
