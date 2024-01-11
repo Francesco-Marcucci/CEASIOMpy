@@ -377,22 +377,22 @@ def run_turbofan_analysis_test_2(alt, MN, Fn):
         (prob.get_val("DESIGN.core_nozz.mux.Fl_O:stat:T")), "Rankine", "Kelvin"
     )  # celsius
 
-    res = np.array(
-        [
-            T_tot_out_byp,
-            V_stat_out_byp,
-            MN_out_byp,
-            P_tot_out_byp,
-            massflow_stat_out_byp,
-            T_stat_out_byp,
-            T_tot_out_core,
-            V_stat_out_core,
-            MN_out_core,
-            P_tot_out_core,
-            massflow_stat_out_core,
-            T_stat_out_core,
-        ]
-    )
+    #    res = np.array(
+    #        [
+    #            T_tot_out_byp,
+    #            V_stat_out_byp,
+    #            MN_out_byp,
+    #            P_tot_out_byp,
+    #            massflow_stat_out_byp,
+    #            T_stat_out_byp,
+    #            T_tot_out_core,
+    #            V_stat_out_core,
+    #            MN_out_core,
+    #            P_tot_out_core,
+    #            massflow_stat_out_core,
+    #            T_stat_out_core,
+    #        ]
+    #    )
     print(f"T_tot_out_core = {T_tot_out_core} [K]")
     print(f"V_stat_out_core = {V_stat_out_core} [m/s]")
     print(f"MN_out_core = {MN_out_core} [adim]")
@@ -405,7 +405,21 @@ def run_turbofan_analysis_test_2(alt, MN, Fn):
     print(f"P_tot_out_byp = {P_tot_out_byp} [Pa]")
     print(f"massflow_stat_out_byp = {massflow_stat_out_byp} [kg/s]")
     print(f"T_stat_out_core = {T_stat_out_core} [K]")
-    return res
+
+    return (
+        T_tot_out_byp,
+        V_stat_out_byp,
+        MN_out_byp,
+        P_tot_out_byp,
+        massflow_stat_out_byp,
+        T_stat_out_byp,
+        T_tot_out_core,
+        V_stat_out_core,
+        MN_out_core,
+        P_tot_out_core,
+        massflow_stat_out_core,
+        T_stat_out_core,
+    )
 
 
 def write_hbtf_file(
