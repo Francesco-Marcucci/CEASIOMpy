@@ -61,14 +61,14 @@ cpacs_inout.add_input(
 )
 
 cpacs_inout.add_input(
-    var_name="is_double_floor",
+    var_name="engine type",
     var_type=list,
     default_value=[0, 1],
     unit=None,
     descr="0: TBJ, 1: TBF ",
     xpath=ENGINE_TYPE_XPATH,
     gui=True,
-    gui_name="Double deck",
+    gui_name="0 for Turbojet 1 for Turbofan",
     gui_group="User inputs",
 )
 
