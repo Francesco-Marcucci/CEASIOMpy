@@ -393,6 +393,7 @@ def run_turbofan_analysis_test_2(alt, MN, Fn):
     #            T_stat_out_core,
     #        ]
     #    )
+
     print(f"T_tot_out_core = {T_tot_out_core} [K]")
     print(f"V_stat_out_core = {V_stat_out_core} [m/s]")
     print(f"MN_out_core = {MN_out_core} [adim]")

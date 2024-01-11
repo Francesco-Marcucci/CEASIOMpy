@@ -86,9 +86,6 @@ def main(cpacs_path, cpacs_out_path):
 
     log.info("----- Start of " + MODULE_NAME + " -----")
 
-    results_dir = get_results_directory("ThermoData")
-    md = MarkdownDoc(Path(results_dir, "ThermoData.md"))
-
     cpacs = CPACS(cpacs_path)
     tixi = cpacs.tixi
 
