@@ -86,7 +86,7 @@ cruise_mach_xpath = CLCALC_XPATH + "/cruiseMach"
 load_fact_xpath = CLCALC_XPATH + "/loadFactor"
 
 
-def main(cpacs_path, cpacs_out_path, EngineBC):
+def main(cpacs_path, cpacs_out_path):
 
     log.info("----- Start of " + MODULE_NAME + " -----")
 
@@ -98,6 +98,11 @@ def main(cpacs_path, cpacs_out_path, EngineBC):
     MN = get_value_or_default(tixi, cruise_mach_xpath, 0.3)
 
     Fn = 2000
+
+    current_dir = Path()
+    current_dir.mkdir()
+
+    EngineBC = Path(ENGINE_BOUNDARY_CONDITIONS)
 
     f = open(EngineBC, "w")
 
