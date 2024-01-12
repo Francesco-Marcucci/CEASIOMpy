@@ -15,14 +15,8 @@ Calculate outlet conditions fot turbojet and turbofan engines
 
 from pathlib import Path
 
-from ceasiompy.ThermoData.func.des_hbtf_func_test_2 import (
-    run_turbofan_analysis_test_2,
-    write_hbtf_file,
-)
-
-from ceasiompy.ThermoData.func.des_turbojet_func import (
-    run_turbojet_analysis,
-    write_turbojet_file,
+from ceasiompy.ThermoData.func.ThermoDataRun import (
+    ThermoData_run,
 )
 
 from ceasiompy.utils.ceasiomlogger import get_logger
@@ -69,99 +63,17 @@ MODULE_NAME = MODULE_DIR.name
 #    MAIN
 # =================================================================================================
 
-# XPath definition
-
-ref_area_xpath = REF_XPATH + "/area"
-
-mass_type_xpath = CLCALC_XPATH + "/massType"
-
-custom_mass_xpath = CLCALC_XPATH + "/customMass"
-
-percent_fuel_mass_xpath = CLCALC_XPATH + "/percentFuelMass"
-
-cruise_alt_xpath = CLCALC_XPATH + "/cruiseAltitude"
-
-cruise_mach_xpath = CLCALC_XPATH + "/cruiseMach"
-
-load_fact_xpath = CLCALC_XPATH + "/loadFactor"
-
 
 def main(cpacs_path, cpacs_out_path):
 
     log.info("----- Start of " + MODULE_NAME + " -----")
 
-    cpacs = CPACS(cpacs_path)
-    tixi = cpacs.tixi
-
-    alt = get_value_or_default(tixi, cruise_alt_xpath, 1000)
-
-    MN = get_value_or_default(tixi, cruise_mach_xpath, 0.3)
-
-    Fn = 2000
-
-    current_dir = Path()
-    current_dir.mkdir()
+    # current_dir = Path(case_dir_path, propeller_uid)
+    # current_dir.mkdir()
 
     EngineBC = Path(ENGINE_BOUNDARY_CONDITIONS)
 
-    f = open(EngineBC, "w")
-
-    engine_type = get_value_or_default(tixi, ENGINE_TYPE_XPATH, 0)
-
-    if engine_type == 0:
-        (
-            T_tot_out,
-            V_stat_out,
-            MN_out,
-            P_tot_out,
-            massflow_stat_out,
-            T_stat_out,
-            P_stat_out,
-        ) = run_turbojet_analysis(alt, MN, Fn)
-
-        f = write_turbojet_file(
-            file=f,
-            T_tot_out=T_tot_out,
-            V_stat_out=V_stat_out,
-            MN_out=MN_out,
-            P_tot_out=P_tot_out,
-            massflow_stat_out=massflow_stat_out,
-            T_stat_out=T_stat_out,
-            P_stat_out=P_stat_out,
-        )
-
-    else:
-
-        (
-            T_tot_out_byp,
-            V_stat_out_byp,
-            MN_out_byp,
-            P_tot_out_byp,
-            massflow_stat_out_byp,
-            T_stat_out_byp,
-            T_tot_out_core,
-            V_stat_out_core,
-            MN_out_core,
-            P_tot_out_core,
-            massflow_stat_out_core,
-            T_stat_out_core,
-        ) = run_turbofan_analysis_test_2(alt, MN, Fn)
-
-        f = write_hbtf_file(
-            file=f,
-            T_tot_out_byp=T_tot_out_byp,
-            V_stat_out_byp=V_stat_out_byp,
-            MN_out_byp=MN_out_byp,
-            P_tot_out_byp=P_tot_out_byp,
-            massflow_stat_out_byp=massflow_stat_out_byp,
-            T_stat_out_byp=T_stat_out_byp,
-            T_tot_out_core=T_tot_out_core,
-            V_stat_out_core=V_stat_out_core,
-            MN_out_core=MN_out_core,
-            P_tot_out_core=P_tot_out_core,
-            massflow_stat_out_core=massflow_stat_out_core,
-            T_stat_out_core=T_stat_out_core,
-        )
+    ThermoData_run(cpacs_path, cpacs_out_path, EngineBC)
 
     log.info("----- End of " + MODULE_NAME + " -----")
 
