@@ -15,7 +15,7 @@ Calculate outlet conditions fot turbojet and turbofan engines
 
 from pathlib import Path
 
-from ceasiompy.ThermoData.func.ThermoDataRun import (
+from ceasiompy.ThermoData.func.RunFunc import (
     ThermoData_run,
 )
 
