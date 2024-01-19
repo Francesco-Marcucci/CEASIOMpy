@@ -71,9 +71,11 @@ def main(cpacs_path, cpacs_out_path):
     # current_dir = Path(case_dir_path, propeller_uid)
     # current_dir.mkdir()
 
-    EngineBC = Path(ENGINE_BOUNDARY_CONDITIONS)
+    # EngineBC = Path(ENGINE_BOUNDARY_CONDITIONS)
 
-    ThermoData_run(cpacs_path, cpacs_out_path, EngineBC)
+    results_dir = get_results_directory("ThermoData")
+
+    ThermoData_run(cpacs_path, cpacs_out_path, results_dir)
 
     log.info("----- End of " + MODULE_NAME + " -----")
 

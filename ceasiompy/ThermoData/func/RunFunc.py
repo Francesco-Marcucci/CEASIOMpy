@@ -24,6 +24,7 @@ from ceasiompy.utils.commonxpath import (
 )
 from ceasiompy.utils.commonnames import (
     ENGINE_BOUNDARY_CONDITIONS,
+    CONFIG_CFD_NAME,
 )
 from cpacspy.cpacsfunctions import (
     get_value_or_default,
@@ -42,21 +43,27 @@ MODULE_NAME = MODULE_DIR.name
 # XPath definition
 
 ref_area_xpath = REF_XPATH + "/area"
-
 cruise_alt_xpath = CLCALC_XPATH + "/cruiseAltitude"
-
 cruise_mach_xpath = CLCALC_XPATH + "/cruiseMach"
 
 
 def ThermoData_run(cpacs_path, cpacs_out_path, wkdir):
 
+    if not wkdir.exists():
+        raise OSError(f"The working directory : {wkdir} does not exit!")
+
+    # case_dir_list = [dir for dir in wkdir.iterdir() if "Case" in dir.name]
+
+    # if not case_dir_list:
+    #     raise OSError(
+    #         f"No Case directory has been found in the working directory: {wkdir}"
+    #     )
+
     cpacs = CPACS(cpacs_path)
     tixi = cpacs.tixi
 
     alt = get_value_or_default(tixi, cruise_alt_xpath, 1000)
-
     MN = get_value_or_default(tixi, cruise_mach_xpath, 0.3)
-
     Fn = 2000
 
     EngineBC = Path(ENGINE_BOUNDARY_CONDITIONS)
@@ -119,3 +126,8 @@ def ThermoData_run(cpacs_path, cpacs_out_path, wkdir):
             massflow_stat_out_core=massflow_stat_out_core,
             T_stat_out_core=T_stat_out_core,
         )
+
+
+def add_ThermoData(cfg, cpacs, case_dir_path, file, mesh_markers, alt, mach):
+    """Add ThermoData parameter to the config file."""
+    cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
