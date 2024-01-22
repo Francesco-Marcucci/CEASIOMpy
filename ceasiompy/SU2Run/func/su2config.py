@@ -64,6 +64,7 @@ from ceasiompy.utils.commonxpath import (
     SU2_ROTATION_RATE_XPATH,
     SU2_TARGET_CL_XPATH,
     SU2MESH_XPATH,
+    ENGINE_TYPE_XPATH,
 )
 from ceasiompy.utils.configfiles import ConfigFile
 from cpacspy.cpacsfunctions import (
@@ -341,7 +342,7 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
 
         if aeromap_list:
             aeromap_default = aeromap_list[0]
-            log.info(f'The aeromap is {aeromap_default}')
+            log.info(f"The aeromap is {aeromap_default}")
 
             aeromap_uid = get_value_or_default(cpacs.tixi, SU2_AEROMAP_UID_XPATH, aeromap_default)
 
@@ -429,6 +430,20 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
 
     # Mesh Marker
     bc_wall_str = f"( {','.join(mesh_markers['wall'])} )"
+
+    # ThermoData config for engine BC
+    if get_value(cpacs.tixi, ENGINE_TYPE_XPATH):
+        Atm = Atmosphere(alt)
+        tot_temp_in = Atm.temperature[0]
+        tot_pressure_in = Atm.pressure[0]
+        # flow_direction = numpyarray[1 0 0]
+        tot_temp_out = 5
+        tot_pressure_out = 6
+
+        cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
+        cfg[
+            "MARKER_INLET"
+        ] = f"( {tot_temp_in}, {tot_pressure_in}, {1}, {tot_temp_out}, {tot_pressure_out}, {1} )"
 
     cfg["MARKER_EULER"] = bc_wall_str
     farfield_bc = (
