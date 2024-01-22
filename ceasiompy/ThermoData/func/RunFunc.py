@@ -52,13 +52,6 @@ def ThermoData_run(cpacs_path, cpacs_out_path, wkdir):
     if not wkdir.exists():
         raise OSError(f"The working directory : {wkdir} does not exit!")
 
-    # case_dir_list = [dir for dir in wkdir.iterdir() if "Case" in dir.name]
-
-    # if not case_dir_list:
-    #     raise OSError(
-    #         f"No Case directory has been found in the working directory: {wkdir}"
-    #     )
-
     cpacs = CPACS(cpacs_path)
     tixi = cpacs.tixi
 
@@ -66,7 +59,7 @@ def ThermoData_run(cpacs_path, cpacs_out_path, wkdir):
     MN = get_value_or_default(tixi, cruise_mach_xpath, 0.3)
     Fn = 2000
 
-    EngineBC = Path(ENGINE_BOUNDARY_CONDITIONS)
+    EngineBC = Path(wkdir, ENGINE_BOUNDARY_CONDITIONS)
 
     f = open(EngineBC, "w")
 
