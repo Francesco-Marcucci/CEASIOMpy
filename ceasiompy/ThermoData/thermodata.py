@@ -3,10 +3,10 @@ CEASIOMpy: Conceptual Aircraft Design Software
 
 Developed by CFS ENGINEERING, 1015 Lausanne, Switzerland
 
-Calculate outlet conditions fot turbojet and turbofan engines
+Calculate outlet conditions fot turbojet and turbofan engines by using the opensource code PYCYCLE
 
-| Author: Francesco Marcucci
-| Creation: 2023
+| Author: Giacomo Benedetti and Francesco Marcucci
+| Creation: 2023-12-12
 """
 
 # =================================================================================================
@@ -16,7 +16,7 @@ Calculate outlet conditions fot turbojet and turbofan engines
 from pathlib import Path
 
 from ceasiompy.ThermoData.func.run_func import (
-    ThermoData_run,
+    thermo_data_run,
 )
 
 from ceasiompy.utils.ceasiomlogger import get_logger
@@ -75,7 +75,7 @@ def main(cpacs_path, cpacs_out_path):
 
     results_dir = get_results_directory("ThermoData")
 
-    ThermoData_run(cpacs_path, cpacs_out_path, results_dir)
+    thermo_data_run(cpacs_path, cpacs_out_path, results_dir)
 
     log.info("----- End of " + MODULE_NAME + " -----")
 

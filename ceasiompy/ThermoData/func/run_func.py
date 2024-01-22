@@ -47,7 +47,7 @@ cruise_alt_xpath = CLCALC_XPATH + "/cruiseAltitude"
 cruise_mach_xpath = CLCALC_XPATH + "/cruiseMach"
 
 
-def ThermoData_run(cpacs_path, cpacs_out_path, wkdir):
+def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
 
     if not wkdir.exists():
         raise OSError(f"The working directory : {wkdir} does not exit!")
