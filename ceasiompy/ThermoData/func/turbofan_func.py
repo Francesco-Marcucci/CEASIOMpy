@@ -19,7 +19,7 @@ log = get_logger()
 # =================================================================================================
 
 
-def run_turbofan_analysis_test_2(alt, MN, Fn):
+def turbofan_analysis(alt, MN, Fn):
     class HBTF(pyc.Cycle):
         def setup(self):
 

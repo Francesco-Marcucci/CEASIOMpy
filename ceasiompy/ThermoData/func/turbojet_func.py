@@ -19,7 +19,7 @@ log = get_logger()
 # =================================================================================================
 
 
-def run_turbojet_analysis(alt, MN, Fn):
+def turbojet_analysis(alt, MN, Fn):
     class Turbojet(pyc.Cycle):
         def setup(self):
 

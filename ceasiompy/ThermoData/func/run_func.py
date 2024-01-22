@@ -1,12 +1,12 @@
 from pathlib import Path
 
-from ceasiompy.ThermoData.func.des_hbtf_func_test_2 import (
-    run_turbofan_analysis_test_2,
+from ceasiompy.ThermoData.func.turbofan_func import (
+    turbofan_analysis,
     write_hbtf_file,
 )
 
-from ceasiompy.ThermoData.func.des_turbojet_func import (
-    run_turbojet_analysis,
+from ceasiompy.ThermoData.func.turbojet_func import (
+    turbojet_analysis,
     write_turbojet_file,
 )
 
@@ -74,7 +74,7 @@ def ThermoData_run(cpacs_path, cpacs_out_path, wkdir):
             massflow_stat_out,
             T_stat_out,
             P_stat_out,
-        ) = run_turbojet_analysis(alt, MN, Fn)
+        ) = turbojet_analysis(alt, MN, Fn)
 
         f = write_turbojet_file(
             file=f,
@@ -102,7 +102,7 @@ def ThermoData_run(cpacs_path, cpacs_out_path, wkdir):
             P_tot_out_core,
             massflow_stat_out_core,
             T_stat_out_core,
-        ) = run_turbofan_analysis_test_2(alt, MN, Fn)
+        ) = turbofan_analysis(alt, MN, Fn)
 
         f = write_hbtf_file(
             file=f,
