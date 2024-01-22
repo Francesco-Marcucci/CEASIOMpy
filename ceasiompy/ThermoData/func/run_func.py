@@ -121,6 +121,6 @@ def ThermoData_run(cpacs_path, cpacs_out_path, wkdir):
         )
 
 
-def add_ThermoData(cfg, cpacs, case_dir_path, file, mesh_markers, alt, mach):
+def add_thermo_data(cfg, cpacs, case_dir_path, file, mesh_markers, alt, mach):
     """Add ThermoData parameter to the config file."""
     cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
