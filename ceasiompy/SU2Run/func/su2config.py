@@ -432,13 +432,30 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
     bc_wall_str = f"( {','.join(mesh_markers['wall'])} )"
 
     # ThermoData config for engine BC
-    if get_value(cpacs.tixi, ENGINE_TYPE_XPATH):
-        Atm = Atmosphere(alt)
-        tot_temp_in = Atm.temperature[0]
-        tot_pressure_in = Atm.pressure[0]
-        # flow_direction = numpyarray[1 0 0]
-        tot_temp_out = 5
-        tot_pressure_out = 6
+    if cpacs.tixi.checkElement(ENGINE_TYPE_XPATH):
+        engine_type = get_value(cpacs.tixi, ENGINE_TYPE_XPATH)
+        log.info(f"engine type {engine_type}")
+
+        if engine_type == 0:
+            Atm = Atmosphere(alt)
+            tot_temp_in = Atm.temperature[0]
+            tot_pressure_in = Atm.pressure[0]
+            # flow_direction = numpyarray[1 0 0]
+            tot_temp_out = 5
+            tot_pressure_out = 6
+
+            cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
+            cfg[
+                "MARKER_INLET"
+            ] = f"( {tot_temp_in}, {tot_pressure_in}, {1}, {tot_temp_out}, {tot_pressure_out}, {1} )"
+
+        elif engine_type == 1:
+            Atm = Atmosphere(alt)
+            tot_temp_in = Atm.temperature[0]
+            tot_pressure_in = Atm.pressure[0]
+            # flow_direction = numpyarray[1 0 0]
+            tot_temp_out = 5
+            tot_pressure_out = 6
 
         cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
         cfg[
