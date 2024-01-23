@@ -120,6 +120,8 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
             T_stat_out_core=T_stat_out_core,
         )
 
+    cpacs.save_cpacs(cpacs_out_path, overwrite=True)
+
 
 def add_thermo_data(cfg, cpacs, case_dir_path, file, mesh_markers, alt, mach):
     """Add ThermoData parameter to the config file."""
