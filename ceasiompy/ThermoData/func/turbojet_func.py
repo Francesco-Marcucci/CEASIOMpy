@@ -184,7 +184,8 @@ def turbojet_analysis(alt, MN, Fn):
         prob.get_val("DESIGN.nozz.throat_total.flow.Fl_O:tot:P") * 6894.7573
     )  # Pa
     P_stat_out = prob.get_val("DESIGN.nozz.mux.Fl_O:stat:P") * 6894.7573  # Pa
-
+    T_tot_out = float(T_tot_out)
+    P_tot_out = float(P_tot_out)
     return (
         T_tot_out,
         V_stat_out,

@@ -21,6 +21,7 @@ from ceasiompy.utils.commonxpath import (
     REF_XPATH,
     CLCALC_XPATH,
     ENGINE_TYPE_XPATH,
+    ENGINE_BC,
 )
 from ceasiompy.utils.commonnames import (
     ENGINE_BOUNDARY_CONDITIONS,
@@ -119,6 +120,15 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
             massflow_stat_out_core=massflow_stat_out_core,
             T_stat_out_core=T_stat_out_core,
         )
+
+    create_branch(cpacs.tixi, ENGINE_BC)
+    tixi.createElement(ENGINE_BC, "temperatureOutlet")
+    tixi.createElement(ENGINE_BC, "pressureOutlet")
+
+    tixi.updateDoubleElement(ENGINE_BC + "/temperatureOutlet", T_tot_out, "%g")
+    tixi.updateDoubleElement(ENGINE_BC + "/pressureOutlet", P_tot_out, "%g")
+    # tixi.updateDoubleElement(ENGINE_BC + "/temperatureOutlet", T_tot_out_core, "%g")
+    # tixi.updateDoubleElement(ENGINE_BC + "/pressureOutlet", P_tot_out_core, "%g")
 
     cpacs.save_cpacs(cpacs_out_path, overwrite=True)
 

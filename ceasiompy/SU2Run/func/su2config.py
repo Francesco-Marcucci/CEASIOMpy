@@ -65,6 +65,7 @@ from ceasiompy.utils.commonxpath import (
     SU2_TARGET_CL_XPATH,
     SU2MESH_XPATH,
     ENGINE_TYPE_XPATH,
+    ENGINE_BC,
 )
 from ceasiompy.utils.configfiles import ConfigFile
 from cpacspy.cpacsfunctions import (
@@ -437,26 +438,26 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
         log.info(f"engine type {engine_type}")
 
         if engine_type == 0:
-            log.info("turbojet boundary condition")
+            log.info("turbojet boundary conditions")
             Atm = Atmosphere(alt)
             tot_temp_in = Atm.temperature[0]
             tot_pressure_in = Atm.pressure[0]
-            # flow_direction = numpyarray[1 0 0]
-            tot_temp_out = 5
-            tot_pressure_out = 6
+            tot_temp_out = get_value(cpacs.tixi, ENGINE_BC + "/temperatureOutlet")
+            tot_pressure_out = get_value(cpacs.tixi, ENGINE_BC + "/pressureOutlet")
             cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
             cfg[
                 "MARKER_INLET"
             ] = f"( {tot_temp_in}, {tot_pressure_in}, {1},{0},{0}, {tot_temp_out}, {tot_pressure_out},  {1},{0},{0} )"
 
         elif engine_type == 1:
-            log.info("turbofan boundary condition")
+            log.info("turbofan boundary conditions")
             Atm = Atmosphere(alt)
             tot_temp_in = Atm.temperature[0]
             tot_pressure_in = Atm.pressure[0]
-            # flow_direction = numpyarray[1 0 0]
-            tot_temp_out = 5
-            tot_pressure_out = 6
+            tot_temp_out = get_value(cpacs.tixi, ENGINE_BOUNDARY_CONDITIONS + "/temperatureOutlet")
+            tot_pressure_out = get_value(
+                cpacs.tixi, ENGINE_BOUNDARY_CONDITIONS + "/pressureOutlet"
+            )
         cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
         cfg[
             "MARKER_INLET"
