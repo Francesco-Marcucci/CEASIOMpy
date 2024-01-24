@@ -454,10 +454,8 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
             Atm = Atmosphere(alt)
             tot_temp_in = Atm.temperature[0]
             tot_pressure_in = Atm.pressure[0]
-            tot_temp_out = get_value(cpacs.tixi, ENGINE_BOUNDARY_CONDITIONS + "/temperatureOutlet")
-            tot_pressure_out = get_value(
-                cpacs.tixi, ENGINE_BOUNDARY_CONDITIONS + "/pressureOutlet"
-            )
+            tot_temp_out = get_value(cpacs.tixi, ENGINE_BC + "/temperatureOutlet")
+            tot_pressure_out = get_value(cpacs.tixi, ENGINE_BC + "/pressureOutlet")
         cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
         cfg[
             "MARKER_INLET"

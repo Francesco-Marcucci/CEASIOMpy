@@ -65,6 +65,9 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
     f = open(EngineBC, "w")
 
     engine_type = get_value_or_default(tixi, ENGINE_TYPE_XPATH, 0)
+    create_branch(cpacs.tixi, ENGINE_BC)
+    tixi.createElement(ENGINE_BC, "temperatureOutlet")
+    tixi.createElement(ENGINE_BC, "pressureOutlet")
 
     if engine_type == 0:
         (
@@ -76,6 +79,9 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
             T_stat_out,
             P_stat_out,
         ) = turbojet_analysis(alt, MN, Fn)
+
+        tixi.updateDoubleElement(ENGINE_BC + "/temperatureOutlet", T_tot_out, "%g")
+        tixi.updateDoubleElement(ENGINE_BC + "/pressureOutlet", P_tot_out, "%g")
 
         f = write_turbojet_file(
             file=f,
@@ -105,6 +111,9 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
             T_stat_out_core,
         ) = turbofan_analysis(alt, MN, Fn)
 
+        tixi.updateDoubleElement(ENGINE_BC + "/temperatureOutlet", T_tot_out_core, "%g")
+        tixi.updateDoubleElement(ENGINE_BC + "/pressureOutlet", P_tot_out_core, "%g")
+
         f = write_hbtf_file(
             file=f,
             T_tot_out_byp=T_tot_out_byp,
@@ -120,15 +129,6 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
             massflow_stat_out_core=massflow_stat_out_core,
             T_stat_out_core=T_stat_out_core,
         )
-
-    create_branch(cpacs.tixi, ENGINE_BC)
-    tixi.createElement(ENGINE_BC, "temperatureOutlet")
-    tixi.createElement(ENGINE_BC, "pressureOutlet")
-
-    tixi.updateDoubleElement(ENGINE_BC + "/temperatureOutlet", T_tot_out, "%g")
-    tixi.updateDoubleElement(ENGINE_BC + "/pressureOutlet", P_tot_out, "%g")
-    # tixi.updateDoubleElement(ENGINE_BC + "/temperatureOutlet", T_tot_out_core, "%g")
-    # tixi.updateDoubleElement(ENGINE_BC + "/pressureOutlet", P_tot_out_core, "%g")
 
     cpacs.save_cpacs(cpacs_out_path, overwrite=True)
 
