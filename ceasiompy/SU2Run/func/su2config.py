@@ -436,30 +436,30 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
     if cpacs.tixi.checkElement(ENGINE_TYPE_XPATH):
         engine_type = get_value(cpacs.tixi, ENGINE_TYPE_XPATH)
         log.info(f"engine type {engine_type}")
+        # alt = get_value_or_default(cpacs.tixi, RANGE_XPATH + "/cruiseAltitude", 10000)
+        # print(alt)
+        Atm = Atmosphere(alt)
+        tot_temp_in = Atm.temperature[0]
+        tot_pressure_in = Atm.pressure[0]
+        print(tot_pressure_in)
 
         if engine_type == 0:
             log.info("turbojet boundary conditions")
-            Atm = Atmosphere(alt)
-            tot_temp_in = Atm.temperature[0]
-            tot_pressure_in = Atm.pressure[0]
             tot_temp_out = get_value(cpacs.tixi, ENGINE_BC + "/temperatureOutlet")
             tot_pressure_out = get_value(cpacs.tixi, ENGINE_BC + "/pressureOutlet")
             cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
             cfg[
                 "MARKER_INLET"
-            ] = f"( {tot_temp_in}, {tot_pressure_in}, {1},{0},{0}, {tot_temp_out}, {tot_pressure_out},  {1},{0},{0} )"
+            ] = f"(INLET_ENGINE,{tot_temp_in}, {tot_pressure_in}, {1},{0},{0},OUTLET_ENGINE, {tot_temp_out}, {tot_pressure_out},  {1},{0},{0} )"
 
         elif engine_type == 1:
             log.info("turbofan boundary conditions")
-            Atm = Atmosphere(alt)
-            tot_temp_in = Atm.temperature[0]
-            tot_pressure_in = Atm.pressure[0]
             tot_temp_out = get_value(cpacs.tixi, ENGINE_BC + "/temperatureOutlet")
             tot_pressure_out = get_value(cpacs.tixi, ENGINE_BC + "/pressureOutlet")
         cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
         cfg[
             "MARKER_INLET"
-        ] = f"( {tot_temp_in}, {tot_pressure_in},  {1},{0},{0}, {tot_temp_out}, {tot_pressure_out},  {1},{0},{0} )"
+        ] = f"(INLET_ENGINE, {tot_temp_in}, {tot_pressure_in},  {1},{0},{0}, OUTLET_ENGINE,{tot_temp_out}, {tot_pressure_out},  {1},{0},{0} )"
 
     cfg["MARKER_EULER"] = bc_wall_str
     farfield_bc = (
