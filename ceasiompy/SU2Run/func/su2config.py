@@ -436,7 +436,7 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
     if cpacs.tixi.checkElement(ENGINE_TYPE_XPATH):
         engine_type = get_value(cpacs.tixi, ENGINE_TYPE_XPATH)
         log.info(f"engine type {engine_type}")
-        # alt = get_value_or_default(cpacs.tixi, RANGE_XPATH + "/cruiseAltitude", 10000)
+        alt = get_value_or_default(cpacs.tixi, RANGE_XPATH + "/cruiseAltitude", 10000)
         # print(alt)
         Atm = Atmosphere(alt)
         tot_temp_in = Atm.temperature[0]

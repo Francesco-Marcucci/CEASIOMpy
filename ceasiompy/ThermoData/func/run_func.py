@@ -22,6 +22,8 @@ from ceasiompy.utils.commonxpath import (
     CLCALC_XPATH,
     ENGINE_TYPE_XPATH,
     ENGINE_BC,
+    RANGE_XPATH,
+    SU2_AEROMAP_UID_XPATH,
 )
 from ceasiompy.utils.commonnames import (
     ENGINE_BOUNDARY_CONDITIONS,
@@ -43,9 +45,9 @@ MODULE_NAME = MODULE_DIR.name
 
 # XPath definition
 
-ref_area_xpath = REF_XPATH + "/area"
-cruise_alt_xpath = CLCALC_XPATH + "/cruiseAltitude"
-cruise_mach_xpath = CLCALC_XPATH + "/cruiseMach"
+# ref_area_xpath = REF_XPATH + "/area"
+# cruise_alt_xpath = CLCALC_XPATH + "/cruiseAltitude"
+# cruise_mach_xpath = CLCALC_XPATH + "/cruiseMach"
 
 
 def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
@@ -56,9 +58,16 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
     cpacs = CPACS(cpacs_path)
     tixi = cpacs.tixi
 
-    alt = get_value_or_default(tixi, cruise_alt_xpath, 1000)
-    MN = get_value_or_default(tixi, cruise_mach_xpath, 0.3)
-    Fn = 2000
+    MN = get_value_or_default(tixi, RANGE_XPATH + "/cruiseMach", 0.3)
+    alt = get_value_or_default(tixi, RANGE_XPATH + "/cruiseAltitude", 1000)
+    Fn = get_value_or_default(tixi, RANGE_XPATH + "/netForce", 2000)
+
+    # MN = get_value_or_default(
+    #    tixi, SU2_AEROMAP_UID_XPATH + "/aeroPerformanceMap/machNumber", 0.3
+    # )
+    # alt = get_value_or_default(
+    #    tixi, SU2_AEROMAP_UID_XPATH + "/aeroPerformanceMap/altitude", 1000
+    # )
 
     EngineBC = Path(wkdir, ENGINE_BOUNDARY_CONDITIONS)
 
