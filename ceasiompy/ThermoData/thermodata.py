@@ -69,8 +69,10 @@ def main(cpacs_path, cpacs_out_path):
     log.info("----- Start of " + MODULE_NAME + " -----")
 
     results_dir = get_results_directory("ThermoData")
+    BC = Path(results_dir, "Boundary Conditions")
+    BC.mkdir()
 
-    thermo_data_run(cpacs_path, cpacs_out_path, results_dir)
+    thermo_data_run(cpacs_path, cpacs_out_path, BC)
 
     log.info("----- End of " + MODULE_NAME + " -----")
 
