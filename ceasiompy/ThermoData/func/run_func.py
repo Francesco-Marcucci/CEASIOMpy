@@ -58,16 +58,22 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
     cpacs = CPACS(cpacs_path)
     tixi = cpacs.tixi
 
-    MN = get_value_or_default(tixi, RANGE_XPATH + "/cruiseMach", 0.3)
-    alt = get_value_or_default(tixi, RANGE_XPATH + "/cruiseAltitude", 1000)
+    # MN = get_value_or_default(tixi, RANGE_XPATH + "/cruiseMach", 0.3)
     Fn = get_value_or_default(tixi, RANGE_XPATH + "/NetForce", 2000)
 
-    # MN = get_value_or_default(
-    #    tixi, SU2_AEROMAP_UID_XPATH + "/aeroPerformanceMap/machNumber", 0.3
-    # )
-    # alt = get_value_or_default(
-    #    tixi, SU2_AEROMAP_UID_XPATH + "/aeroPerformanceMap/altitude", 1000
-    # )
+    aeromap_list = cpacs.get_aeromap_uid_list()
+
+    if aeromap_list:
+        aeromap_default = aeromap_list[0]
+        log.info(f"The aeromap is {aeromap_default}")
+        aeromap_uid = get_value_or_default(
+            cpacs.tixi, SU2_AEROMAP_UID_XPATH, aeromap_default
+        )
+        activate_aeromap = cpacs.get_aeromap_by_uid(aeromap_uid)
+        alt_list = activate_aeromap.get("altitude").tolist()
+        mach_list = activate_aeromap.get("machNumber").tolist()
+        alt = alt_list[0]
+        MN = mach_list[0]
 
     EngineBC = Path(wkdir, ENGINE_BOUNDARY_CONDITIONS)
 
@@ -140,8 +146,3 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
         )
 
     cpacs.save_cpacs(cpacs_out_path, overwrite=True)
-
-
-def add_thermo_data(cfg, cpacs, case_dir_path, file, mesh_markers, alt, mach):
-    """Add ThermoData parameter to the config file."""
-    cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
