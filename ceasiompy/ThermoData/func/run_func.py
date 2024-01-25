@@ -60,7 +60,7 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
 
     MN = get_value_or_default(tixi, RANGE_XPATH + "/cruiseMach", 0.3)
     alt = get_value_or_default(tixi, RANGE_XPATH + "/cruiseAltitude", 1000)
-    Fn = get_value_or_default(tixi, RANGE_XPATH + "/netForce", 2000)
+    Fn = get_value_or_default(tixi, RANGE_XPATH + "/NetForce", 2000)
 
     # MN = get_value_or_default(
     #    tixi, SU2_AEROMAP_UID_XPATH + "/aeroPerformanceMap/machNumber", 0.3
