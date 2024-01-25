@@ -43,12 +43,6 @@ log = get_logger()
 MODULE_DIR = Path(__file__).parent
 MODULE_NAME = MODULE_DIR.name
 
-# XPath definition
-
-# ref_area_xpath = REF_XPATH + "/area"
-# cruise_alt_xpath = CLCALC_XPATH + "/cruiseAltitude"
-# cruise_mach_xpath = CLCALC_XPATH + "/cruiseMach"
-
 
 def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
 
@@ -58,7 +52,6 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
     cpacs = CPACS(cpacs_path)
     tixi = cpacs.tixi
 
-    # MN = get_value_or_default(tixi, RANGE_XPATH + "/cruiseMach", 0.3)
     Fn = get_value_or_default(tixi, RANGE_XPATH + "/NetForce", 2000)
 
     aeromap_list = cpacs.get_aeromap_uid_list()

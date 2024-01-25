@@ -433,7 +433,9 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
     bc_wall_str = f"( {','.join(mesh_markers['wall'])} )"
 
     # ThermoData config file adding for engine BC
+
     if cpacs.tixi.checkElement(ENGINE_TYPE_XPATH):
+        log.info("adding engine BC to the SU2 config file")
         engine_type = get_value(cpacs.tixi, ENGINE_TYPE_XPATH)
         log.info(f"engine type {engine_type}")
         alt = alt_list[0]
