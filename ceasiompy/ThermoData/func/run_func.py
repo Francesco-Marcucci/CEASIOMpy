@@ -65,8 +65,14 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
         activate_aeromap = cpacs.get_aeromap_by_uid(aeromap_uid)
         alt_list = activate_aeromap.get("altitude").tolist()
         mach_list = activate_aeromap.get("machNumber").tolist()
-        alt = alt_list[0]
-        MN = mach_list[0]
+
+        for case_nb in range(len(alt_list)):
+            alt = alt_list[case_nb]
+            MN = mach_list[case_nb]
+            case_dir_name = f"Case{str(case_nb).zfill(2)}_alt{alt}_mach{round(MN, 2)}"
+            case_dir_path = Path(wkdir, case_dir_name)
+            if not case_dir_path.exists():
+                case_dir_path.mkdir()
 
     EngineBC = Path(wkdir, ENGINE_BOUNDARY_CONDITIONS)
 
