@@ -31,7 +31,6 @@ from ceasiompy.utils.commonnames import (
 )
 from cpacspy.cpacsfunctions import (
     get_value_or_default,
-    add_float_vector,
 )
 from cpacspy.cpacsfunctions import create_branch, get_value, get_value_or_default
 from cpacspy.cpacspy import CPACS
@@ -66,8 +65,6 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
         activate_aeromap = cpacs.get_aeromap_by_uid(aeromap_uid)
         alt_list = activate_aeromap.get("altitude").tolist()
         mach_list = activate_aeromap.get("machNumber").tolist()
-        T_tot_out_array = []
-        P_tot_out_array = []
 
         for case_nb in range(len(alt_list)):
             alt = alt_list[case_nb]
@@ -78,12 +75,16 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
             if not case_dir_path.exists():
                 case_dir_path.mkdir()
 
-                EngineBC = Path(case_dir_path, ENGINE_BOUNDARY_CONDITIONS)
+                EngineBC = Path(
+                    case_dir_path, ENGINE_BOUNDARY_CONDITIONS + str(case_nb)
+                )
 
                 f = open(EngineBC, "w")
 
                 engine_type = get_value_or_default(tixi, ENGINE_TYPE_XPATH, 0)
-                create_branch(cpacs.tixi, ENGINE_BC)
+                create_branch(cpacs.tixi, ENGINE_BC + str(case_nb))
+                tixi.createElement(ENGINE_BC + str(case_nb), "temperatureOutlet")
+                tixi.createElement(ENGINE_BC + str(case_nb), "pressureOutlet")
 
                 if engine_type == 0:
                     (
@@ -96,8 +97,12 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
                         P_stat_out,
                     ) = turbojet_analysis(alt, MN, Fn)
 
-                    T_tot_out_array.append(T_tot_out)
-                    P_tot_out_array.append(P_tot_out)
+                    tixi.updateDoubleElement(
+                        ENGINE_BC + str(case_nb) + "/temperatureOutlet", T_tot_out, "%g"
+                    )
+                    tixi.updateDoubleElement(
+                        ENGINE_BC + str(case_nb) + "/pressureOutlet", P_tot_out, "%g"
+                    )
 
                     f = write_turbojet_file(
                         file=f,
@@ -127,8 +132,12 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
                         T_stat_out_core,
                     ) = turbofan_analysis(alt, MN, Fn)
 
-                    T_tot_out_array.append(T_tot_out_core)
-                    P_tot_out_array.append(P_tot_out_core)
+                    tixi.updateDoubleElement(
+                        ENGINE_BC + "/temperatureOutlet", T_tot_out_core, "%g"
+                    )
+                    tixi.updateDoubleElement(
+                        ENGINE_BC + "/pressureOutlet", P_tot_out_core, "%g"
+                    )
 
                     f = write_hbtf_file(
                         file=f,
@@ -145,7 +154,5 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
                         massflow_stat_out_core=massflow_stat_out_core,
                         T_stat_out_core=T_stat_out_core,
                     )
-        add_float_vector(tixi, ENGINE_BC + "/temperatureOutlet", T_tot_out_array)
-        add_float_vector(tixi, ENGINE_BC + "/pressureOutlet", P_tot_out_array)
 
     cpacs.save_cpacs(cpacs_out_path, overwrite=True)
