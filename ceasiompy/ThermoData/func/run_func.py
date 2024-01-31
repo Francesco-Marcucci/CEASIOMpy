@@ -75,14 +75,16 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
             if not case_dir_path.exists():
                 case_dir_path.mkdir()
 
-                EngineBC = Path(case_dir_path, ENGINE_BOUNDARY_CONDITIONS)
+                EngineBC = Path(
+                    case_dir_path, ENGINE_BOUNDARY_CONDITIONS + str(case_nb)
+                )
 
                 f = open(EngineBC, "w")
 
                 engine_type = get_value_or_default(tixi, ENGINE_TYPE_XPATH, 0)
-                create_branch(cpacs.tixi, ENGINE_BC)
-                tixi.createElement(ENGINE_BC, "temperatureOutlet")
-                tixi.createElement(ENGINE_BC, "pressureOutlet")
+                create_branch(cpacs.tixi, ENGINE_BC + str(case_nb))
+                tixi.createElement(ENGINE_BC + str(case_nb), "temperatureOutlet")
+                tixi.createElement(ENGINE_BC + str(case_nb), "pressureOutlet")
 
                 if engine_type == 0:
                     (
@@ -96,10 +98,10 @@ def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
                     ) = turbojet_analysis(alt, MN, Fn)
 
                     tixi.updateDoubleElement(
-                        ENGINE_BC + "/temperatureOutlet", T_tot_out, "%g"
+                        ENGINE_BC + str(case_nb) + "/temperatureOutlet", T_tot_out, "%g"
                     )
                     tixi.updateDoubleElement(
-                        ENGINE_BC + "/pressureOutlet", P_tot_out, "%g"
+                        ENGINE_BC + str(case_nb) + "/pressureOutlet", P_tot_out, "%g"
                     )
 
                     f = write_turbojet_file(
