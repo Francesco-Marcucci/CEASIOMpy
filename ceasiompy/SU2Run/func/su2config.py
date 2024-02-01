@@ -20,6 +20,7 @@ TODO:
 #   IMPORTS
 # =================================================================================================
 
+import numpy as np
 from pathlib import Path
 from shutil import copyfile
 
@@ -449,7 +450,30 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
     cfg["OUTPUT_FILES"] = "(RESTART, PARAVIEW, SURFACE_PARAVIEW)"
     cfg["HISTORY_OUTPUT"] = "(INNER_ITER, RMS_RES, AERO_COEFF)"
 
+    # ThermoData config file adding for engine BC
+
+    for case_nb in range(len(alt_list)):
+
+        if cpacs.tixi.checkElement(ENGINE_TYPE_XPATH):
+            log.info("adding engine BC to the SU2 config file")
+            engine_type = get_value(cpacs.tixi, ENGINE_TYPE_XPATH)
+            log.info(f"engine type {engine_type}")
+            alt = alt_list[case_nb]
+            Atm = Atmosphere(alt)
+            tot_temp_in = Atm.temperature[0]
+            tot_pressure_in = Atm.pressure[0]
+            tot_temp_out = get_value(cpacs.tixi, ENGINE_BC + "/temperatureOutlet")
+            tot_pressure_out = get_value(cpacs.tixi, ENGINE_BC + "/pressureOutlet")
+            tot_temp_out_array = tot_temp_out.split(";")[case_nb]
+            tot_pressure_out_array = tot_pressure_out.split(";")[case_nb]
+
+    cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
+    cfg[
+        "MARKER_INLET"
+    ] = f"(INLET_ENGINE, {tot_temp_in}, {tot_pressure_in},  {1},{0},{0}, OUTLET_ENGINE,{tot_temp_out_array}, {tot_pressure_out_array},  {1},{0},{0} )"
+
     # Parameters which will vary for the different cases (alt,mach,aoa,aos)
+
     for case_nb in range(len(alt_list)):
         cfg["MESH_FILENAME"] = str(su2_mesh)
 
@@ -522,38 +546,6 @@ def generate_su2_cfd_config(cpacs_path, cpacs_out_path, wkdir):
                 cfg["MESH_FILENAME"] = mesh_path
 
                 cfg.write_file(Path(config_dir_path, CONFIG_CFD_NAME), overwrite=True)
-
-        # ThermoData config file adding for engine BC
-
-        if cpacs.tixi.checkElement(ENGINE_TYPE_XPATH):
-            log.info("adding engine BC to the SU2 config file")
-            engine_type = get_value(cpacs.tixi, ENGINE_TYPE_XPATH)
-            log.info(f"engine type {engine_type}")
-            # alt = alt_list[0]
-            # Atm = Atmosphere(alt)
-            tot_temp_in = Atm.temperature[0]
-            tot_pressure_in = Atm.pressure[0]
-            print(tot_pressure_in)
-            print(case_nb)
-
-            if engine_type == 0:
-                log.info("turbojet boundary conditions")
-                tot_temp_out = get_value(cpacs.tixi, ENGINE_BC + "/temperatureOutlet")
-                tot_pressure_out = get_value(cpacs.tixi, ENGINE_BC + "/pressureOutlet")
-                print(tot_temp_out)
-                cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
-                cfg[
-                    "MARKER_INLET"
-                ] = f"(INLET_ENGINE,{tot_temp_in}, {tot_pressure_in}, {1},{0},{0},OUTLET_ENGINE, {tot_temp_out[case_nb]}, {tot_pressure_out[case_nb]},  {1},{0},{0} )"
-
-            elif engine_type == 1:
-                log.info("turbofan boundary conditions")
-                tot_temp_out = get_value(cpacs.tixi, ENGINE_BC + "/temperatureOutlet")
-                tot_pressure_out = get_value(cpacs.tixi, ENGINE_BC + "/pressureOutlet")
-            cfg["INLET_TYPE"] = "TOTAL_CONDITIONS"
-            cfg[
-                "MARKER_INLET"
-            ] = f"(INLET_ENGINE, {tot_temp_in}, {tot_pressure_in},  {1},{0},{0}, OUTLET_ENGINE,{tot_temp_out[case_nb]}, {tot_pressure_out[case_nb]},  {1},{0},{0} )"
 
     cpacs.save_cpacs(cpacs_out_path, overwrite=True)
 
