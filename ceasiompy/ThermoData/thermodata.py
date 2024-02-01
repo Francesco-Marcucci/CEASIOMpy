@@ -13,6 +13,7 @@ Calculate outlet conditions fot turbojet and turbofan engines by using the opens
 #   IMPORTS
 # =================================================================================================
 
+import shutil
 from pathlib import Path
 
 from ceasiompy.ThermoData.func.run_func import (
@@ -71,6 +72,10 @@ def main(cpacs_path, cpacs_out_path):
     results_dir = get_results_directory("ThermoData")
 
     thermo_data_run(cpacs_path, cpacs_out_path, results_dir)
+
+    folder_name = "reports"
+
+    shutil.rmtree(folder_name)
 
     log.info("----- End of " + MODULE_NAME + " -----")
 
