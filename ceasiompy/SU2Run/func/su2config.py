@@ -297,6 +297,9 @@ def add_actuator_disk(cfg, cpacs, case_dir_path, actuator_disk_file, mesh_marker
     f.close()
 
 
+# adding the results of thermodata to the config file of su2
+
+
 def add_thermodata(cfg, cpacs, alt, case_nb, alt_list):
 
     if cpacs.tixi.checkElement(ENGINE_TYPE_XPATH):
