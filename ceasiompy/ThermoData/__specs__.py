@@ -25,30 +25,6 @@ cpacs_inout = CPACSInOut()
 # ===== Input =====
 
 
-# cpacs_inout.add_input(
-#     var_name="cruise_mach",
-#     var_type=float,
-#     default_value=0.3,
-#     unit="1",
-#     descr="Aircraft cruise Mach number",
-#     xpath=CLCALC_XPATH + "/cruiseMach",
-#     gui=True,
-#     gui_name="Mach",
-#     gui_group="Cruise",
-# )
-
-# cpacs_inout.add_input(
-#     var_name="cruise_alt",
-#     var_type=float,
-#     default_value=1000.0,
-#     unit="m",
-#     descr="Aircraft cruise altitude",
-#     xpath=CLCALC_XPATH + "/cruiseAltitude",
-#     gui=True,
-#     gui_name="Altitude",
-#     gui_group="Cruise",
-# )
-
 cpacs_inout.add_input(
     var_name="net_force",
     var_type=float,
