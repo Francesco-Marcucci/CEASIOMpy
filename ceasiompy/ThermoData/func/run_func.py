@@ -27,14 +27,7 @@ from ceasiompy.ThermoData.func.turbojet_func import (
 
 from ceasiompy.utils.ceasiomlogger import get_logger
 
-from ceasiompy.utils.moduleinterfaces import (
-    check_cpacs_input_requirements,
-    get_toolinput_file_path,
-    get_tooloutput_file_path,
-)
 from ceasiompy.utils.commonxpath import (
-    REF_XPATH,
-    CLCALC_XPATH,
     ENGINE_TYPE_XPATH,
     ENGINE_BC,
     RANGE_XPATH,
@@ -42,17 +35,13 @@ from ceasiompy.utils.commonxpath import (
 )
 from ceasiompy.utils.commonnames import (
     ENGINE_BOUNDARY_CONDITIONS,
-    CONFIG_CFD_NAME,
 )
 from cpacspy.cpacsfunctions import (
     get_value_or_default,
     add_float_vector,
 )
-from cpacspy.cpacsfunctions import create_branch, get_value, get_value_or_default
+from cpacspy.cpacsfunctions import create_branch, get_value_or_default
 from cpacspy.cpacspy import CPACS
-from markdownpy.markdownpy import MarkdownDoc
-from ceasiompy.utils.ceasiompyutils import get_results_directory
-
 
 log = get_logger()
 
