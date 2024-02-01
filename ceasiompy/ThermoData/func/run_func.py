@@ -1,3 +1,18 @@
+"""
+CEASIOMpy: Conceptual Aircraft Design Software
+
+Developed by CFS ENGINEERING, 1015 Lausanne, Switzerland
+
+Function to run the PyCycle code in order to obtain turbojet and turbofan boundary conditions
+at given altitude, mach number and net force = thrust of the engine 
+
+Python version: >=3.8
+
+| Author: Giacomo Benedetti and Francesco Marcucci
+| Creation: 2023-12-12
+
+"""
+
 from pathlib import Path
 
 from ceasiompy.ThermoData.func.turbofan_func import (
@@ -46,6 +61,13 @@ MODULE_NAME = MODULE_DIR.name
 
 
 def thermo_data_run(cpacs_path, cpacs_out_path, wkdir):
+    """Running the PyCycle code by choosing between turbojet or turbofan engine
+
+    Args
+        cpacs_path (Path): Path to CPACS file
+        cpacs_out_path (Path):Path to CPACS output file
+        wkdir (str): Path to the working directory
+    """
 
     if not wkdir.exists():
         raise OSError(f"The working directory : {wkdir} does not exit!")

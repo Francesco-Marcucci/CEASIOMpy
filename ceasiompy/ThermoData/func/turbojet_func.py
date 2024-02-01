@@ -1,3 +1,17 @@
+"""
+CEASIOMpy: Conceptual Aircraft Design Software
+
+Developed by CFS ENGINEERING, 1015 Lausanne, Switzerland
+
+Function to run the PyCycle code for the turbojet engine
+
+Python version: >=3.8
+
+| Author: Giacomo Benedetti and Francesco Marcucci
+| Creation: 2023-12-12
+
+"""
+
 import sys
 
 import openmdao.api as om
